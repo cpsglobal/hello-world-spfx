@@ -23,7 +23,7 @@
   "@microsoft/generator-sharepoint": {
     "environment": "spo",
     "framework": "react",
-    "isCreatingSolution": true,
+    "isCreatingSolution": false,
     "version": "1.9.1",
     "libraryName": "hello-world-spfx",
     "libraryId": "9f383f64-3f3e-4938-b384-5f3e8c218afc",

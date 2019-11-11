@@ -6,23 +6,26 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
+import { sp } from "@pnp/sp";
+import * as strings from 'HelloWebWebPartStrings';
+import { IHelloWebProps, HelloWeb } from './components/HelloWeb';
 
-import * as strings from 'HelloWorldWebPartStrings';
-import { HelloWorld, IHelloWorldProps } from './components/HelloWorld';
+export interface IHelloWebWebPartProps { }
 
-export interface IHelloWorldWebPartProps {
-  title: string;
-  subTitle: string;
-  description: string;
-  buttonText: string;
-  buttonTarget: string;
-}
+export const getWeb = () => sp.web.get();
 
-export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
+export default class HelloWebWebPart extends BaseClientSideWebPart<IHelloWebWebPartProps> {
+
+  public async onInit(): Promise<void> {
+    const _ = await super.onInit();
+    sp.setup({
+      spfxContext: this.context
+    });
+  }
 
   public render(): void {
-    const element: React.ReactElement<IHelloWorldProps> = React.createElement(
-      HelloWorld, { ...this.properties }
+    const element: React.ReactElement<IHelloWebProps> = React.createElement(
+      HelloWeb, { getWeb }
     );
 
     ReactDom.render(element, this.domElement);
@@ -47,20 +50,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: strings.TitleFieldLabel
-                }),
-                PropertyPaneTextField('subTitle', {
-                  label: strings.SubTitleFieldLabel
-                }),
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
-                }),
-                PropertyPaneTextField('buttonText', {
-                  label: strings.ButtonTextFieldLabel
-                }),
-                PropertyPaneTextField('buttonTarget', {
-                  label: strings.ButtonTargetFieldLabel
                 })
               ]
             }
