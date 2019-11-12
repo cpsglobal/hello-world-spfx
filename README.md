@@ -1,42 +1,27 @@
 # hello-world-spfx
 
-This project uses [React](https://reactjs.org).
+This project is designed to give us a playground to create a `model` project that can be used for reference and a starting point for new projects.
 
-> This is where you include your project's documentation.
+## Environment requirements
 
-## Global dependencies
+The below requirements are required to be installed in your environment for the solution to build and function correctly
 
-Requires Gulp globally installed:
+- Node.js v10.*
+- Gulp: `npm i -g gulp-cli`
+- Yeoman: `npm i -g yo`
+- PnP Yeoman Generator: `npm i -g @pnp/generator-spfx`
 
-```shell
-npm install --global gulp
-```
+## Debugging
 
-## Building the code
+Use the below debug configurations to launch and debug your code from within VSCode
 
-Download & install all dependencies, build, bundle & package the project
+- `Local workbench`: Launches Chrome Incognito instance which navigates to `https://localhost:4321/temp/workbench.html` (`gulp serve` is required)
+- `Remote workbench`: Launches Chrome Incognito instance which navigates to `https://cpsglobaldev.sharepoint.com/_layouts/15/workbench.aspx` (`gulp serve` is required)
+- `Jest All`: Launches integrated terminal and runs all tests
+- `Jest Watch`: Launches integrated terminal and only runs tests changed since last commit in watch mode
+- `Jest Watch All`: Launches integrated terminal and only runs tests changed since last commit in watch mode
 
-```shell
-# download & install dependencies
-npm install
-
-# transpile all TypeScript & SCSS => JavaScript & CSS
-gulp build
-
-# create component bundle & manifest
-gulp bundle
-
-# create SharePoint package
-gulp package-solution
-```
-
-These commands produce the following:
-
-- **./lib**: intermediate-stage commonjs build artifacts
-- **./dist**: bundled script, along with other resources
-- **./temp/deploy**: all resources required by component(s) to deploy to a CDN (when `--ship` argument present)
-
-## Build options
+## Build optionss
 
 - `gulp clean`: Deletes all build output (**/dist**, **/lib**, **/temp**, etc.).
 - `gulp build`: Transpiles all TypeScript & SCSS to JavaScript & CSS, generates source map files & TypeScript type declaration files
@@ -47,6 +32,11 @@ These commands produce the following:
 - `gulp dev`: Creates a development-ready SharePoint Package (**.sppkg**) file. The following gulp task will be executed in this specific order `gulp clean`, `gulp bundle`, `gulp package-solution.`
 
 > View all available gulp tasks by running `gulp --tasks`
+
+## Test options
+
+- `npm run test`: Runs all tests
+- `npm run test:watch`: Runs all tests in watch mode
 
 More information on [SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview)
 
