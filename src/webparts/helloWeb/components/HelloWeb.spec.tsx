@@ -1,7 +1,7 @@
 import * as React from 'react';
 import sinon from 'sinon';
-import { shallow } from "enzyme";
-import { HelloWeb } from './HelloWeb';
+import { mount } from "enzyme";
+import { HelloWeb, IHelloWebProps } from './HelloWeb';
 
 describe('HelloWeb', () => {
 
@@ -62,31 +62,49 @@ describe('HelloWeb', () => {
         "WelcomePage": "SitePages/Welcome.aspx"
     };
 
-    it('calls getWeb on component mount', () => {
+    const renderComponent = ({ getWeb }: IHelloWebProps) => mount(<HelloWeb getWeb={getWeb} />);
+
+    it('calls getWeb on componentDidMount', async () => {
         const getWeb = sinon.stub().resolves();
-        shallow(<HelloWeb getWeb={getWeb} />);
+        sinon.spy(HelloWeb.prototype, 'componentDidMount');
+        const wrapper = await renderComponent({ getWeb }).render();
+        expect(HelloWeb.prototype.componentDidMount).toHaveProperty('callCount', 1);
         expect(getWeb.callCount).toEqual(1);
     });
 
-    it('sets component state to returned data', async () => {
+    it('sets state with returned data', async () => {
         const getWeb = sinon.stub().resolves(webData);
-        const wrapper = await shallow(<HelloWeb getWeb={getWeb} />);
+        const wrapper = await renderComponent({ getWeb });
         expect(wrapper.state('loaded')).toEqual(true);
         expect(wrapper.state('web')).toEqual(webData);
     });
 
+    it('sets state with error', async () => {
+        const error = new Error('Network Failure');
+        const getWeb = sinon.stub().rejects(error);
+        const wrapper = await renderComponent({ getWeb });
+        expect(wrapper.state('error')).toHaveProperty('message', 'Network Failure');
+    });
+
+    it('displays error', async () => {
+        const error = new Error('Network Failure');
+        const getWeb = sinon.stub().rejects(error);
+        const wrapper = await renderComponent({ getWeb });
+        expect(wrapper.render().find('.error').text()).toEqual('Network Failure');
+    });
+
     it('displays web title', async () => {
         const getWeb = sinon.stub().resolves(webData);
-        const wrapper = await shallow(<HelloWeb getWeb={getWeb} />);
-        expect(wrapper.find('h1').text()).toEqual(webData.Title);
+        const wrapper = await renderComponent({ getWeb });
+        expect(wrapper.render().find('h1').text()).toEqual(webData.Title);
     });
 
     it('has link targeted to site', async () => {
         const getWeb = sinon.stub().resolves(webData);
-        const wrapper = await shallow(<HelloWeb getWeb={getWeb} />);
-        const anchor = wrapper.find('a');
-        expect(anchor.props().href).toEqual(webData.Url);
+        const wrapper = await renderComponent({ getWeb });
+        const anchor = wrapper.render().find('a');
+        expect(anchor.prop('href')).toEqual(webData.Url);
         expect(anchor.text()).toEqual('Link');
-    })
+    });
 
 });
