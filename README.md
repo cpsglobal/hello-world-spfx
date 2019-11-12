@@ -21,7 +21,7 @@ Use the below debug configurations to launch and debug your code from within VSC
 - `Jest Watch`: Launches integrated terminal and only runs tests changed since last commit in watch mode
 - `Jest Watch All`: Launches integrated terminal and only runs tests changed since last commit in watch mode
 
-## Build optionss
+## Build options
 
 - `gulp clean`: Deletes all build output (**/dist**, **/lib**, **/temp**, etc.).
 - `gulp build`: Transpiles all TypeScript & SCSS to JavaScript & CSS, generates source map files & TypeScript type declaration files
