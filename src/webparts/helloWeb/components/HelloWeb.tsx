@@ -8,6 +8,7 @@ export interface IHelloWebProps {
 interface IHelloWebState {
   loaded: Boolean;
   web: {};
+  error: Error;
 }
 
 export class HelloWeb extends React.Component<IHelloWebProps, IHelloWebState> {
@@ -16,17 +17,23 @@ export class HelloWeb extends React.Component<IHelloWebProps, IHelloWebState> {
     super(props);
     this.state = {
       loaded: false,
-      web: null
+      web: null,
+      error: null
     };
   }
 
   public componentDidMount() {
-    this.props.getWeb().then((web: {}) => {
-      this.setState({
-        loaded: true,
-        web: web
+    this.props.getWeb()
+      .then((web: {}) => {
+        this.setState({
+          loaded: true,
+          web: web
+        });
+      }, (error) => {
+        this.setState({
+          error: error
+        });
       });
-    });
   }
 
   public render(): React.ReactElement<IHelloWebProps> {
@@ -40,6 +47,9 @@ export class HelloWeb extends React.Component<IHelloWebProps, IHelloWebState> {
                 <div><a href={this.state.web['Url']}>Link</a></div>
               </div>
             </div>}
+          {this.state.error &&
+            <div className="error">{this.state.error.message}</div>
+          }
         </div>
       </div>
     );
