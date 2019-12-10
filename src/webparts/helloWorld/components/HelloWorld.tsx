@@ -12,10 +12,6 @@ export interface IHelloWorldProps {
 export const HelloWorld: React.FunctionComponent<IHelloWorldProps> = (props) => {
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    document.getElementById("timesClicked").innerText = `You clicked ${count} times`;
-  });
-
   return (
     <div className={styles.helloWorld}>
       <div className={styles.container}>
@@ -31,7 +27,7 @@ export const HelloWorld: React.FunctionComponent<IHelloWorldProps> = (props) => 
         </div>
         <div className={styles.row}>
           <PrimaryButton text="Click Me" onClick={() => setCount(count + 1)} />
-          <div id="timesClicked"></div>
+          <div id="timesClicked">You clicked {count} times.</div>
         </div>
       </div>
     </div>
