@@ -26,8 +26,10 @@ export const HelloWorld: React.FunctionComponent<IHelloWorldProps> = (props) => 
           </div>
         </div>
         <div className={styles.row}>
-          <PrimaryButton text="Click Me" onClick={() => setCount(count + 1)} />
-          <div id="timesClicked">You clicked {count} times.</div>
+          <div className={styles.column}>
+            <PrimaryButton text="Click Me" onClick={() => setCount(count + 1)} />
+            <div id="timesClicked">You clicked {count} times.</div>
+          </div>
         </div>
       </div>
     </div>
